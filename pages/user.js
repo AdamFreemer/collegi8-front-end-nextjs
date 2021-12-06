@@ -12,10 +12,8 @@ export default function User() {
           <form onSubmit={ e => handleSubmit(e, email, password) }>
                 <div className="mb-4">
                   <label className="block text-grey-darker text-sm font-bold mb-2">
-                    Greetings {localStorage.first_name}!
+                    Greetings!
                   </label>
-
-                
               </div>
           </form>
         </div>

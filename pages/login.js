@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { userService } from '../services/user.service';
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState();
   const [admin, setAdmin] = useState(false);
 
   const handleSubmit = (e, email, password) => {  
     e.preventDefault()  
-    var returnedItems = userService.login(email, password);
-    console.log('-- localStorage.getItem: ', localStorage)
-    
+    userService.login(email, password);  
+    if (localStorage.getItem('authorized') === "true") {
+      setAuthorized(true);
+    } else {
+      setAuthorized(false);
+    }
+    console.log('-- local storage: ' + localStorage.getItem('authorized'))
   }
+
+  useEffect(() => {
+    // run auth check on initial load
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
@@ -44,6 +52,14 @@ export default function Login() {
                   Submit
                 </button>
                 
+                  {(() => {
+                    if (localStorage.getItem('authorized') === 'true') { 
+                      return <i>Ok.</i>
+                    } else {
+                      return <i>Unauthorized!</i>
+                    }
+                  })()}
+                  
               </div>
           </form>
         </div>
